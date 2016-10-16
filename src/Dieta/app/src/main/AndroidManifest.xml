@@ -15,10 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewFoodActivity"></activity>
-        <activity android:name=".ConfirmActivity"></activity>
-        <activity android:name=".EstimateActivity"></activity>
-        <activity android:name=".DerailedResultsActivity"></activity>
+        <activity android:name=".NewFoodActivity" />
+        <activity android:name=".ConfirmActivity" />
+        <activity android:name=".EstimateActivity" />
+        <activity android:name=".ResultsActivity" />
+        <activity android:name=".DetailedResultsActivity"></activity>
     </application>
 
 </manifest>
