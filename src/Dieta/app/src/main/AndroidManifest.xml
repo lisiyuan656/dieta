@@ -19,6 +19,7 @@
         <activity android:name=".ConfirmActivity"></activity>
         <activity android:name=".EstimateActivity"></activity>
         <activity android:name=".DerailedResultsActivity"></activity>
+        <activity android:name=".NewUserActivity"></activity>
     </application>
 
 </manifest>
