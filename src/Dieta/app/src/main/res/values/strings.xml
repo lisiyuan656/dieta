@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Dieta</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="Input_Username">Enter your username here</string>
+    <string name="Input_Password">Enter your password here</string>
 </resources>
