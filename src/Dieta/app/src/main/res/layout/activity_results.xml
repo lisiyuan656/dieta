@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dip">
 
     <TextView
         android:text="@string/nutritional_contents"
@@ -10,17 +11,18 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-        android:id="@+id/textView" />
+        android:id="@+id/textView"/>
 
     <FrameLayout
-        android:id="@+id/result_nfacts"
+        android:id="@+id/result_nfacts"  android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="420dp" />
+        android:layout_height="match_parent" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="horizontal"  android:layout_weight="4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dip"        >
 
         <Button
             android:text="@string/detail"
