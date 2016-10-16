@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.osu.cse5236.group9.dieta">
+          package="edu.osu.cse5236.group9.dieta">
 
     <application
         android:allowBackup="true"
@@ -10,15 +10,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ResultsActivity"
-            android:label="@string/title_activity_results"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".NewFoodActivity">
+        </activity>
+        <activity android:name=".ConfirmActivity">
+        </activity>
+        <activity android:name=".EstimateActivity">
+        </activity>
     </application>
 
 </manifest>
