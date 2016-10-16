@@ -16,7 +16,7 @@ public class LoginActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment login_fragment = fm.findFragmentById(R.id.login_fragment_container);
         if (login_fragment==null) {
-            login_fragment = new NewFoodFragment();
+            login_fragment = new LoginFragment();
             fm.beginTransaction()
                     .add(R.id.login_fragment_container, login_fragment)
                     .commit();
