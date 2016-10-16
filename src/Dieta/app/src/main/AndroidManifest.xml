@@ -18,7 +18,7 @@
         <activity android:name=".NewFoodActivity"></activity>
         <activity android:name=".ConfirmActivity"></activity>
         <activity android:name=".EstimateActivity"></activity>
-        <activity android:name=".DerailedResultsActivity"></activity>
+        <activity android:name=".DetailedResultsActivity"></activity>
         <activity android:name=".NewUserActivity"></activity>
     </application>
 
