@@ -28,7 +28,7 @@
             android:text="@string/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/result_details"
+            android:id="@+id/results_detail"
             android:layout_weight="1"
             style="?android:attr/button" />
 
@@ -36,7 +36,7 @@
             android:text="@string/finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/result_finish"
+            android:id="@+id/results_finish"
             android:layout_weight="1"
             style="?android:attr/button" />
     </LinearLayout>

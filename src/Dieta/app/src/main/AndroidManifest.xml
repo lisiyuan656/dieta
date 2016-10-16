@@ -20,6 +20,7 @@
         <activity android:name=".EstimateActivity"></activity>
         <activity android:name=".DetailedResultsActivity"></activity>
         <activity android:name=".NewUserActivity"></activity>
+        <activity android:name=".ResultsActivity" ></activity>
     </application>
 
 </manifest>

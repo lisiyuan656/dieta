@@ -3,16 +3,33 @@
     android:id="@+id/activity_detailed_result"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="20dip">
 
 
-    <TextView
-        android:text="TextView"
+    <LinearLayout
+        android:layout_weight="4"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="@string/food_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_weight="1" />
+    </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/detailedresult_nfacts"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -20,8 +37,31 @@
     </FrameLayout>
 
     <LinearLayout
+        android:layout_weight="4"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></LinearLayout>
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="@string/arrow_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailedresults_left"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="@string/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailedresults_right"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="@string/finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailedresults_finish"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>
