@@ -16,11 +16,13 @@
         android:text="@string/Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
     <EditText
         android:id="@+id/login_edittext_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/Input_Password"/>
+        android:hint="@string/Input_Password"
+        android:inputType="textPassword"/>
 
     <Button
         android:layout_width="match_parent"
