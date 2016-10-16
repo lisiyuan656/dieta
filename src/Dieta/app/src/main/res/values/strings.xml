@@ -4,4 +4,7 @@
     <string name="Password">Password</string>
     <string name="Input_Username">Enter your username here</string>
     <string name="Input_Password">Enter your password here</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
