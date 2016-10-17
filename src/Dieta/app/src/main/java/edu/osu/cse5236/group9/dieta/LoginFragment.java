@@ -31,6 +31,10 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: authentication
+                if (true) {
+                    Intent i = new Intent(getActivity(), NewFoodActivity.class);
+                    startActivity(i);
+                }
             }
         });
 
