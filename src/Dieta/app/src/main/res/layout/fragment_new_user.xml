@@ -5,8 +5,6 @@
     tools:context="edu.osu.cse5236.group9.dieta.NewUserFragment"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
         android:text="@string/Username"
         android:layout_width="match_parent"
