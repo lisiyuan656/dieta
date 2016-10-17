@@ -1,5 +1,6 @@
 package edu.osu.cse5236.group9.dieta;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +13,7 @@ public class LoginFragment extends Fragment {
     private EditText mEditText_Username;
     private EditText mEditText_Password;
     private Button mButton_Login;
-    private Button mButton_Exit;
+
     private Button mButton_NewUser;
 
     @Override
@@ -32,19 +33,13 @@ public class LoginFragment extends Fragment {
                 // TODO: authentication
             }
         });
-        mButton_Exit = (Button) v.findViewById(R.id.login_exit);
-        mButton_Exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: save before exit
-                // TODO: Exit the activity
-            }
-        });
+
         mButton_NewUser = (Button) v.findViewById(R.id.login_newuser);
         mButton_NewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: jump to NewUserActivity
+                Intent i = new Intent(getActivity(), NewUserActivity.class);
+                startActivity(i);
             }
         });
         return v;

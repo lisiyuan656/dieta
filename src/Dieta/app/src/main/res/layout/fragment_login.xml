@@ -33,17 +33,12 @@
         android:textAllCaps="false" />
 
     <Button
-        android:text="Exit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/login_exit"
-        android:textAllCaps="false" />
-
-    <Button
         android:text="New User"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/login_newuser"
         android:textAllCaps="false" />
+
+
 
 </LinearLayout>
