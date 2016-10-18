@@ -9,10 +9,12 @@ import android.util.Log;
 import android.view.View;
 
 public class ResultsActivity extends FragmentActivity implements View.OnClickListener {
+    private static final String ACTIVITYNAME = "ResultsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(ACTIVITYNAME, "onCreate(Bundle) called");
         setContentView(R.layout.activity_results);
 
         ResultsFragment resultsFragment= new ResultsFragment();
@@ -37,6 +39,36 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
                 startActivity(new Intent(this,NewFoodActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(ACTIVITYNAME, "onStart() called");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(ACTIVITYNAME, "onPause() called");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(ACTIVITYNAME, "onResume() called");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(ACTIVITYNAME, "onStop() called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(ACTIVITYNAME, "onDestroy() called");
     }
 
 }
