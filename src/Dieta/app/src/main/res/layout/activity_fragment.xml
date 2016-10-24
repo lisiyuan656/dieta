@@ -1,5 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/new_user_fragment_container"
+             android:id="@+id/fragment_container"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-    />
+             />
