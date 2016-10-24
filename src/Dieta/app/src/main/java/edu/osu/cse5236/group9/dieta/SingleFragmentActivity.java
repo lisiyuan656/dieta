@@ -1,36 +1,31 @@
 package edu.osu.cse5236.group9.dieta;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
-public class LoginActivity extends FragmentActivity {
-    private Button mButton_Exit;
+/**
+ * Created by Siyuan on 10/23/16.
+ */
+
+public abstract class SingleFragmentActivity extends FragmentActivity {
+    protected abstract Fragment createFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this.getClass().getSimpleName(), "onCreate(Bundle) called");
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_fragment);
 
         FragmentManager fragmentManager=getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.login_fragment_container);
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
         if (fragment==null) {
-            fragment = new LoginFragment();
-            fragmentManager.beginTransaction().add(R.id.login_fragment_container, fragment).commit();
+            fragment = createFragment();
+            fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
         }
-        mButton_Exit = (Button) findViewById(R.id.login_exit);
-        mButton_Exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: save before exit
-                finish();
-            }
-        });
     }
 
     @Override
