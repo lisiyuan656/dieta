@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "617255384673",
+    "firebase_url": "https://dieta-147704.firebaseio.com",
+    "project_id": "dieta-147704",
+    "storage_bucket": "dieta-147704.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617255384673:android:de93ec439c3587c7",
+        "android_client_info": {
+          "package_name": "edu.osu.cse5236.group9.dieta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617255384673-d2ct49g1t50b1g9ku47a62bvcrud0e2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.osu.cse5236.group9.dieta",
+            "certificate_hash": "CDF47BDB59DC579894E4B56C3D96B6DB1F5E5798"
+          }
+        },
+        {
+          "client_id": "617255384673-85l87o72r6j8ap4d2qnd56jbmpp16quk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM9z_dIhAswTNtheS712eYAP-LtXfWmBs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617255384673-85l87o72r6j8ap4d2qnd56jbmpp16quk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

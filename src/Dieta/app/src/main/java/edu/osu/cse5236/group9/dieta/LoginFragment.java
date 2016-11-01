@@ -10,12 +10,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+
+import static com.firebase.ui.auth.ui.AcquireEmailHelper.RC_SIGN_IN;
+
 public class LoginFragment extends Fragment {
     private static final String FRAGMENTNAME = "LoginFragment";
     private EditText mEditText_Username;
     private EditText mEditText_Password;
     private Button mButton_Login;
     private Button mButton_NewUser;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,14 +34,26 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
+        mAuth = FirebaseAuth.getInstance();
         mButton_Login = (Button) v.findViewById(R.id.login_login);
         mButton_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: authentication
-                if (true) {
+                if (mAuth.getCurrentUser()!=null) {
                     Intent i = new Intent(getActivity(), NewFoodActivity.class);
                     startActivity(i);
+                }
+                else {
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setProviders(
+                                            AuthUI.EMAIL_PROVIDER,
+                                            AuthUI.GOOGLE_PROVIDER)
+                                    .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                                    .build(),
+                            RC_SIGN_IN);
                 }
             }
         });
