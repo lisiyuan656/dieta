@@ -9,16 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.firebase.ui.auth.ui.AcquireEmailHelper.RC_SIGN_IN;
 
 public class LoginFragment extends Fragment {
     private static final String FRAGMENTNAME = "LoginFragment";
-    private EditText mEditText_Username;
-    private EditText mEditText_Password;
     private Button mButton_Login;
     private Button mButton_NewUser;
     private FirebaseAuth mAuth;
@@ -41,6 +41,8 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 // TODO: authentication
                 if (mAuth.getCurrentUser()!=null) {
+                    FirebaseUser mUser = mAuth.getCurrentUser();
+                    Toast.makeText(getActivity(), "Welcome back! " + mUser.getEmail(), Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getActivity(), NewFoodActivity.class);
                     startActivity(i);
                 }
@@ -51,7 +53,7 @@ public class LoginFragment extends Fragment {
                                     .setProviders(
                                             AuthUI.EMAIL_PROVIDER,
                                             AuthUI.GOOGLE_PROVIDER)
-                                    .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                                    .setIsSmartLockEnabled(false)
                                     .build(),
                             RC_SIGN_IN);
                 }

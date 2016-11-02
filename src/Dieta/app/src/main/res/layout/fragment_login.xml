@@ -3,26 +3,11 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-        android:text="@string/Username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/login_edittext_username"
+    <ImageView
+        android:id="@+id/logo_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/Input_Username" />
-    <TextView
-        android:text="@string/Password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/login_edittext_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/Input_Password"
-        android:inputType="textPassword"/>
+        android:src="@drawable/logo"/>
 
     <Button
         android:layout_width="match_parent"

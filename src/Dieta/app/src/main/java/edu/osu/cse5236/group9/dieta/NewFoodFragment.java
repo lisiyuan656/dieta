@@ -3,6 +3,7 @@ package edu.osu.cse5236.group9.dieta;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,12 +13,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
 
 public class NewFoodFragment extends Fragment {
     private EditText mNameField;
     private Button mButton_Camera;
     private Button mButton_AddFood;
     private Button mButton_Confirm;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,7 @@ public class NewFoodFragment extends Fragment {
                 startActivity(i);
             }
         });
+
         return v;
     }
 
