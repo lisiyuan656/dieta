@@ -3,6 +3,9 @@
     package="edu.osu.cse5236.group9.dieta">
     
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNEL_STORAGE"/>
 
     <application
         android:allowBackup="true"

@@ -15,6 +15,9 @@
     <string name="detail">Detail</string>
     <string name="finish">Finish</string>
     <string name="food_name">Food Name:</string>
+    <string name="picture_select_prompt">Choose a picture</string>
+    <string name="picture_select_gallery">Gallery</string>
+    <string name="picture_select_camera">Camera</string>
     <string name="arrow_left"><![CDATA[<--]]></string>
     <string name="arrow_right"><![CDATA[-->]]></string>
 

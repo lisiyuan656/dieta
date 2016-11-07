@@ -8,13 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static android.app.Activity.RESULT_OK;
 import static com.firebase.ui.auth.ui.AcquireEmailHelper.RC_SIGN_IN;
 
 public class LoginFragment extends Fragment {
@@ -39,7 +39,6 @@ public class LoginFragment extends Fragment {
         mButton_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: authentication
                 if (mAuth.getCurrentUser()!=null) {
                     FirebaseUser mUser = mAuth.getCurrentUser();
                     Toast.makeText(getActivity(), "Welcome back! " + mUser.getEmail(), Toast.LENGTH_SHORT).show();
@@ -53,7 +52,7 @@ public class LoginFragment extends Fragment {
                                     .setProviders(
                                             AuthUI.EMAIL_PROVIDER,
                                             AuthUI.GOOGLE_PROVIDER)
-                                    .setIsSmartLockEnabled(false)
+                                    .setIsSmartLockEnabled(!BuildConfig.DEBUG)
                                     .build(),
                             RC_SIGN_IN);
                 }
@@ -69,6 +68,29 @@ public class LoginFragment extends Fragment {
             }
         });
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            // user is signed in!
+            startActivity(new Intent(getActivity(), NewFoodActivity.class));
+            getActivity().finish();
+            return;
+        }
+        /*
+        // Sign in cancelled
+        if (resultCode == RESULT_CANCELED) {
+
+            return;
+        }
+        // No network
+        if (resultCode == AddressConstants.ResultCodes) {
+            showSnackbar(R.string.no_internet_connection);
+            return;
+        }
+        */
     }
 
     @Override
