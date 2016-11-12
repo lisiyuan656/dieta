@@ -1,10 +1,13 @@
 package edu.osu.cse5236.group9.dieta;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Siyuan on 10/29/16.
  */
 
-public class Food {
+public class Food implements Parcelable {
     private String mName;
     private double mEstimated_Weight;
     private double mCalories;
@@ -86,4 +89,40 @@ public class Food {
     public void setTotal_Carbohydrates(double total_Carbohydrates) {
         mTotal_Carbohydrates = total_Carbohydrates;
     }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    private Food(Parcel in) {
+        this.mName = in.readString();
+        this.mEstimated_Weight = in.readDouble();
+        this.mCalories = in.readDouble();
+        this.mTotal_Fat = in.readDouble();
+        this.mSodium = in.readDouble();
+        this.mProtein = in.readDouble();
+        this.mCholesterol = in.readDouble();
+        this.mTotal_Carbohydrates = in.readDouble();
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeDouble(mEstimated_Weight);
+        dest.writeDouble(mCalories);
+        dest.writeDouble(mTotal_Fat);
+        dest.writeDouble(mSodium);
+        dest.writeDouble(mProtein);
+        dest.writeDouble(mCholesterol);
+        dest.writeDouble(mTotal_Carbohydrates);
+    }
+
+    public static final Parcelable.Creator<Food> CREATOR
+            = new Parcelable.Creator<Food>() {
+        public Food createFromParcel(Parcel in) {
+            return new Food(in);
+        }
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
 }
