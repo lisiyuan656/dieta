@@ -27,7 +27,7 @@ public class Food implements Parcelable {
     private double mCholesterol;
     private double mTotal_Carbohydrates;
 
-    private void setFoodNutrs(JsonReader reader) {
+    private void setFoodNutritionFacts(JsonReader reader) {
         try {
             reader.beginObject();
             if(!reader.nextName().equals("total_hits")) {
@@ -66,7 +66,7 @@ public class Food implements Parcelable {
                 }
             }
         } catch (Exception e) {
-            Log.d("setFoodNutrs","Exception");
+            Log.d("setFoodNutritionFact","Exception");
         }
     }
 
@@ -77,10 +77,11 @@ public class Food implements Parcelable {
     public boolean FetchData() throws IOException {
         // TODO: add code to fetch data using nutritionix api
         InputStream is = null;
-        int len = 500;
         try {
-            String testurl = "http://www.oracle.com/technetwork/java/index.html";
-            URL url = new URL(testurl);
+            String urlstring = "https://api.nutritionix.com/v1_1/search/";
+            urlstring += getName();
+            urlstring += "?fields=item_name,nf_calories,nf_total_fat,nf_sodium,nf_protein,nf_cholesterol,nf_total_carbohydrate&appId=fa7ccaab&appKey=7f717e06cc847e5e78f5b6a9407f18b9";
+            URL url = new URL(urlstring);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
@@ -89,19 +90,22 @@ public class Food implements Parcelable {
             // Starts the query
             conn.connect();
             int response = conn.getResponseCode();
-            // Log.d(DEBUG_TAG, "The response is: " + response);
+            Log.d("FoodNutritionFetch", "The response is: " + response);
             is = conn.getInputStream();
 
             JsonReader reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
-            setFoodNutrs(reader);
+            setFoodNutritionFacts(reader);
+            if (is != null) is.close();
             conn.disconnect();
             return true;
 
+
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
-        } finally {
-            if (is != null) is.close();
+        } catch (Exception e) {
+            Log.d("FoodNutritionFetch","Exception");
         }
+        return false;
     }
 
     public double getEstimated_Weight() {
