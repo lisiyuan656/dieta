@@ -9,6 +9,9 @@ import java.util.List;
 
 public class Meal implements Parcelable {
     private List<Food> mFoods;
+    public void addFood(Food food) {
+        mFoods.add(food);
+    }
     private Meal(Parcel in) {
         this.mFoods = new ArrayList<>();
         in.readTypedList(mFoods, Food.CREATOR);
@@ -30,5 +33,11 @@ public class Meal implements Parcelable {
         }
     };
 
+    public List<Food> getFoods() {
+        return mFoods;
+    }
 
+    public void setFoods(List<Food> foods) {
+        mFoods = foods;
+    }
 }

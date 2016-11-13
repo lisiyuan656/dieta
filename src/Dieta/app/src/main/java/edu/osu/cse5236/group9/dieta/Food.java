@@ -2,12 +2,22 @@ package edu.osu.cse5236.group9.dieta;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import com.google.gson.stream.JsonReader;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by Siyuan on 10/29/16.
  */
 
 public class Food implements Parcelable {
+    private static final String sNutritionix_Address = "https://api.nutritionix.com/v1_1/search/";
     private String mName;
     private double mEstimated_Weight;
     private double mCalories;
@@ -17,13 +27,81 @@ public class Food implements Parcelable {
     private double mCholesterol;
     private double mTotal_Carbohydrates;
 
+    private void setFoodNutrs(JsonReader reader) {
+        try {
+            reader.beginObject();
+            if(!reader.nextName().equals("total_hits")) {
+                Log.d("reader","Fetch fail");
+                return;
+            }
+            if(reader.nextInt()==0) {
+                Log.d("reader","No matching");
+                return;
+            }
+            while(reader.hasNext() && !reader.nextName().equals("hits")) {
+                reader.skipValue();
+            }
+            reader.beginArray();
+            reader.beginObject();
+            while(reader.hasNext() && !reader.nextName().equals("fields")) {
+                reader.skipValue();
+            }
+            reader.beginObject();;
+            while(reader.hasNext()) {
+                String name = reader.nextName();
+                if (name.equals("nf_calories")) {
+                    this.setCalories(reader.nextDouble());
+                } else if (name.equals("nf_total_fat")) {
+                    this.setTotal_Fat(reader.nextDouble());
+                } else if (name.equals("nf_cholesterol")) {
+                    this.setCholesterol(reader.nextDouble());
+                } else if (name.equals("nf_sodium")) {
+                    this.setSodium(reader.nextDouble());
+                } else if (name.equals("nf_total_carbohydrate")) {
+                    this.setTotal_Carbohydrates(reader.nextDouble());
+                } else if (name.equals("nf_protein")) {
+                    this.setProtein(reader.nextDouble());
+                } else {
+                    reader.skipValue();
+                }
+            }
+        } catch (Exception e) {
+            Log.d("setFoodNutrs","Exception");
+        }
+    }
+
     public Food(String name) {
         mName = name;
     }
 
-    public boolean FetchData() {
+    public boolean FetchData() throws IOException {
         // TODO: add code to fetch data using nutritionix api
-        return true;
+        InputStream is = null;
+        int len = 500;
+        try {
+            String testurl = "http://www.oracle.com/technetwork/java/index.html";
+            URL url = new URL(testurl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            // Starts the query
+            conn.connect();
+            int response = conn.getResponseCode();
+            // Log.d(DEBUG_TAG, "The response is: " + response);
+            is = conn.getInputStream();
+
+            JsonReader reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
+            setFoodNutrs(reader);
+            conn.disconnect();
+            return true;
+
+            // Makes sure that the InputStream is closed after the app is
+            // finished using it.
+        } finally {
+            if (is != null) is.close();
+        }
     }
 
     public double getEstimated_Weight() {
