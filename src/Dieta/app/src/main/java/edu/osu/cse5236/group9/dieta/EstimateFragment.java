@@ -15,7 +15,7 @@ import java.io.IOException;
 
 
 public class EstimateFragment extends Fragment implements View.OnClickListener{
-    Meal mealtoestimate;
+    private Meal mMeal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,12 +33,12 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
             case R.id.estimate_confirm:
                 Food testfood = new Food("apple");
                 testfood.setEstimated_Weight(100);
-                mealtoestimate.addFood(testfood);
+                mMeal.addFood(testfood);
                 ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
                     try {
-                        mealtoestimate.getFoods().get(0).FetchData();
+                        mMeal.getFoods().get(0).FetchData();
                     } catch (IOException e) {
 
                     }

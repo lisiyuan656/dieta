@@ -122,6 +122,7 @@ public class NewFoodFragment extends Fragment {
             public void onClick(View v) {
                 // TODO: update Food object && background operation
                 Intent i = new Intent(getActivity(), ConfirmActivity.class);
+                i.putStringArrayListExtra("mFoodList", (ArrayList<String>) mFoodList);
                 startActivity(i);
             }
         });

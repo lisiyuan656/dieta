@@ -9,14 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.List;
+
 
 public class ConfirmFragment extends Fragment {
-    Button mButton_Confirm;
+    private Button mButton_Confirm;
+    private List<String> mFoodList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_confirm, container, false);
+        mFoodList = getActivity().getIntent().getStringArrayListExtra("mFoodList");
         mButton_Confirm = (Button) v.findViewById(R.id.confirm_food_list_button);
         mButton_Confirm.setOnClickListener(new View.OnClickListener(){
             @Override
