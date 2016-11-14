@@ -10,23 +10,12 @@
         android:layout_height="wrap_content"
         android:text="Choose the food you eat"/>
 
-    <ToggleButton
-        android:text="Apple"
+    <ListView
+        android:id="@+id/confirm_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toggleButton"/>
+        android:layout_height="wrap_content">
+    </ListView>
 
-    <ToggleButton
-        android:text="Hamburger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toggleButton2"/>
-
-    <ToggleButton
-        android:text="xxxx"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toggleButton3"/>
 
     <Button
         android:text="Confirm"

@@ -1,6 +1,7 @@
 package edu.osu.cse5236.group9.dieta;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -55,7 +56,10 @@ public class NewFoodFragment extends Fragment {
     private Button mButton_AddFood;
     private Button mButton_Confirm;
     private List<String> mFoodList;
+    private Meal mMeal;
+    private Food mFood;
     private ImageView mFoodImage;
+    private ProgressDialog mProgress;
 
 
     @Override
@@ -68,6 +72,7 @@ public class NewFoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_new_food, container, false);
         mFoodList = new ArrayList<>();
+        mMeal = new Meal();
         mFoodImage = (ImageView) v.findViewById(R.id.food_image);
         mNameField = (EditText) v.findViewById(R.id.food_name);
         mNameField.addTextChangedListener(new TextWatcher() {
@@ -78,7 +83,7 @@ public class NewFoodFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO: Update Food object
+                mFood = new Food(s.toString());
             }
 
             @Override
@@ -113,15 +118,16 @@ public class NewFoodFragment extends Fragment {
         mButton_AddFood.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // TODO: update Food object
+                if (mFood!=null) mMeal.addFood(mFood);
             }
         });
         mButton_Confirm = (Button) v.findViewById(R.id.confirm_food_button);
         mButton_Confirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // TODO: update Food object && background operation
                 Intent i = new Intent(getActivity(), ConfirmActivity.class);
+                i.putStringArrayListExtra("mFoodList", (ArrayList<String>) mFoodList);
+                i.putExtra("mMeal", mMeal);
                 startActivity(i);
             }
         });
@@ -202,6 +208,13 @@ public class NewFoodFragment extends Fragment {
         // Do the real work in an async task
         new AsyncTask<Object, Void, List<String>>() {
             @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                // DIALOG_DOWNLOAD_PROGRESS is defined as 0 at start of class
+                mProgress = ProgressDialog.show(getActivity(), "Vision", "Uploading...");
+            }
+
+            @Override
             protected List<String> doInBackground(Object... params) {
                 try {
                     HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
@@ -254,11 +267,12 @@ public class NewFoodFragment extends Fragment {
                 }
                 return new ArrayList<String>();
             }
-
+            @Override
             protected void onPostExecute(List<String> result) {
+                super.onPostExecute(result);
                 // Update food list
                 mFoodList.addAll(result);
-                Toast.makeText(getActivity(), mFoodList.toString(), Toast.LENGTH_LONG).show();
+                mProgress.dismiss();
             }
         }.execute();
     }
