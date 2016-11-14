@@ -15,10 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 
 public class EstimateFragment extends Fragment implements View.OnClickListener{
     private Meal mMeal;
@@ -31,7 +27,7 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
 
         View buttonConfirm=v.findViewById(R.id.estimate_confirm);
         buttonConfirm.setOnClickListener(this);
-        mMeal=new Meal();
+        mMeal = getActivity().getIntent().getParcelableExtra("mMeal");
 
         return v;
     }
