@@ -8,14 +8,14 @@
     <ListView
         android:id="@+id/estimate_list"
         android:layout_width="match_parent"
-        android:layout_weight="14"
+        android:layout_weight="1"
         android:layout_height="0dp">
     </ListView>
 
     <Button
         android:text="@string/confirm"
         android:layout_width="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0"
         android:layout_height="wrap_content"
         android:id="@+id/estimate_confirm" />
 

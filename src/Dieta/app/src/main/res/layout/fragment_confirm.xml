@@ -12,6 +12,7 @@
 
     <ListView
         android:id="@+id/confirm_list"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ListView>
@@ -19,6 +20,7 @@
 
     <Button
         android:text="Confirm"
+        android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/confirm_food_list_button"/>
