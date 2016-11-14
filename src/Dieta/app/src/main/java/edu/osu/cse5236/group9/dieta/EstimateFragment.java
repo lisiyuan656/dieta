@@ -86,9 +86,6 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
         View buttonConfirm = v.findViewById(R.id.estimate_confirm);
         buttonConfirm.setOnClickListener(this);
 
-        // To Delete
-        mMeal=new Meal();
-
         mMeal = getActivity().getIntent().getParcelableExtra("mMeal");
         MealAdapter adapter = new MealAdapter(getActivity(), mMeal);
         mListView = (ListView) v.findViewById(R.id.estimate_list);
@@ -99,16 +96,12 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.estimate_confirm:
-                // To Delete
-                Food testfood = new Food("apple");
-                testfood.setEstimated_Weight(100);
-                mMeal.addFood(testfood);
 
                 ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
                     new DownloadNutritionFacts().execute("");
-                    Log.d("","");
+                    Log.d("EstimateFragment","Estimate Completed");
                 } else {
                     Context context = getActivity().getApplicationContext();
                     CharSequence text = "Network connection not available.";

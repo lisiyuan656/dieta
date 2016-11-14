@@ -18,7 +18,7 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
         Log.d(ACTIVITYNAME, "onCreate(Bundle) called");
         setContentView(R.layout.activity_results);
 
-        // TODO: get meal from prior class
+        mMeal=getIntent().getParcelableExtra("mMeal");
 
         // Calculate total nutritional facts
         Double Calories = 0.0;
@@ -44,10 +44,9 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
         Total_nutrition.setTotal_Carbohydrates(Total_Carbohydrates);
 
 
-        // TODO: pass Total_nutrition to fragment
-
 
         ResultsFragment resultsFragment= new ResultsFragment();
+        resultsFragment.passFood(Total_nutrition);
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
 
@@ -63,7 +62,9 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.results_detail:
-                startActivity(new Intent(this,DetailedResultsActivity.class));
+                Intent i= new Intent(this,DetailedResultsActivity.class);
+                i.putExtra("mMeal",mMeal);
+                startActivity(i);
                 break;
             case R.id.results_finish:
                 startActivity(new Intent(this,NewFoodActivity.class));

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,19 +23,31 @@ public class ResultsFragment extends Fragment {
     }
 
 
+    public void passFood(Food inputFood) {
+        mFood=inputFood;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        // TODO: get mFood
-
-        // TODO: add fact numbers
 
         View v= inflater.inflate(R.layout.fragment_results, container, false);
 
-        View text_calories = v.findViewById(R.id.textView_calories);
-        View text_totalfat = v.findViewById(R.id.textView_totalfat);
+        TextView text_calories = (TextView) v.findViewById(R.id.textView_calories);
+        TextView text_totalfat = (TextView) v.findViewById(R.id.textView_totalfat);
+        TextView text_sodium = (TextView) v.findViewById(R.id.textView_sodium);
+        TextView text_protein = (TextView) v.findViewById(R.id.textView_protein);
+        TextView text_cholesterol = (TextView) v.findViewById(R.id.textView_cholesterol);
+        TextView text_totalcarbohydrates = (TextView) v.findViewById(R.id.textView_totalcarbohydrates);
+        text_calories.setText(String.format("%.1f",mFood.getCalories()));
+        text_totalfat.setText(String.format("%.1f",mFood.getTotal_Fat()));
+        text_sodium.setText(String.format("%.1f",mFood.getSodium()));
+        text_protein.setText(String.format("%.1f",mFood.getProtein()));
+        text_cholesterol.setText(String.format("%.1f",mFood.getCholesterol()));
+        text_totalcarbohydrates.setText(String.format("%.1f",mFood.getTotal_Carbohydrates()));
 
 
         return v;
