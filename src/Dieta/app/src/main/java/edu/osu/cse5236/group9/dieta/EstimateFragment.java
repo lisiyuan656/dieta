@@ -13,22 +13,82 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class EstimateFragment extends Fragment implements View.OnClickListener{
     private Meal mMeal;
-    ProgressDialog pd;
+    private ProgressDialog pd;
+    private ListView mListView;
+    private class MealAdapter extends BaseAdapter {
+        private LayoutInflater mInflater;
+        private ArrayList<Food> AL_list = new ArrayList<Food>();
+
+        public MealAdapter(Context context, Meal meal) {
+            mInflater = LayoutInflater.from(context);
+            this.AL_list = (ArrayList<Food>) meal.getFoods();
+        }
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public int getCount() {
+            return AL_list.size();
+        }
+
+        public Object getItem(int position) {
+            return AL_list.get(position);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final Food food = (Food) getItem(position);
+            if (convertView==null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.estimate_list_element, parent, false);
+            }
+            TextView food_name_text = (TextView) convertView.findViewById(R.id.estimate_element_food_name);
+            food_name_text.setText("Food name: "+food.getName());
+            final TextView food_weight_text = (TextView) convertView.findViewById(R.id.estimate_element_food_weight);
+            food_weight_text.setText("Weight: "+String.format("%.1f", food.getEstimated_Weight())+" g");
+            SeekBar estimate_seekbar = (SeekBar) convertView.findViewById(R.id.estimate_element_seekbar);
+            estimate_seekbar.setMax(10000);
+            estimate_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    food_weight_text.setText("Weight: "+String.format("%.1f", progress/10.0)+" g");
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    // blank
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    food.setEstimated_Weight(seekBar.getProgress()/10.0);
+                }
+            });
+
+            return convertView;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_estimate, container, false);
 
-        View buttonConfirm=v.findViewById(R.id.estimate_confirm);
+        View buttonConfirm = v.findViewById(R.id.estimate_confirm);
         buttonConfirm.setOnClickListener(this);
         mMeal = getActivity().getIntent().getParcelableExtra("mMeal");
-
+        MealAdapter adapter = new MealAdapter(getActivity(), mMeal);
+        mListView = (ListView) v.findViewById(R.id.estimate_list);
+        mListView.setAdapter(adapter);
         return v;
     }
 
@@ -84,7 +144,9 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
             if (pd.isShowing()){
                 pd.dismiss();
             }
-            startActivity(new Intent(getActivity(),ResultsActivity.class));
+            Intent i = new Intent(getActivity(), ResultsActivity.class);
+            i.putExtra("mMeal", mMeal);
+            startActivity(i);
         }
     }
 }
