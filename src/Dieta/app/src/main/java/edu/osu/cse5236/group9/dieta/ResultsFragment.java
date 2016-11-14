@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ResultsFragment extends Fragment {
+    private Food mFood;
 
 
     public ResultsFragment() {
@@ -24,9 +26,17 @@ public class ResultsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        // TODO: get mFood
+
         // TODO: add fact numbers
 
-        return inflater.inflate(R.layout.fragment_results, container, false);
+        View v= inflater.inflate(R.layout.fragment_results, container, false);
+
+        View text_calories = v.findViewById(R.id.textView_calories);
+        View text_totalfat = v.findViewById(R.id.textView_totalfat);
+
+
+        return v;
     }
 
 }

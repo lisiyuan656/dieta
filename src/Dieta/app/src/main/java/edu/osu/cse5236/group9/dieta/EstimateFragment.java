@@ -28,9 +28,12 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_estimate, container, false);
+        // TODO: get meal from prior class
 
         View buttonConfirm=v.findViewById(R.id.estimate_confirm);
         buttonConfirm.setOnClickListener(this);
+
+        // To Delete
         mMeal=new Meal();
 
         return v;
@@ -39,9 +42,11 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.estimate_confirm:
+                // To Delete
                 Food testfood = new Food("apple");
                 testfood.setEstimated_Weight(100);
                 mMeal.addFood(testfood);
+
                 ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {

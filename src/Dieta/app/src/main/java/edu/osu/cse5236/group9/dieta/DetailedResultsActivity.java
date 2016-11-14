@@ -17,6 +17,8 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
         Log.d(ACTIVITYNAME, "onCreate(Bundle) called");
         setContentView(R.layout.activity_detailed_results);
 
+        // TODO: get meal from prior class
+
         ResultsFragment resultsFragment= new ResultsFragment();
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
