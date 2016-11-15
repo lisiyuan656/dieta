@@ -10,6 +10,7 @@ import android.view.View;
 
 public class ResultsActivity extends FragmentActivity implements View.OnClickListener {
     private static final String ACTIVITYNAME = "ResultsActivity";
+    private Meal mMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +18,35 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
         Log.d(ACTIVITYNAME, "onCreate(Bundle) called");
         setContentView(R.layout.activity_results);
 
+        mMeal=getIntent().getParcelableExtra("mMeal");
+
+        // Calculate total nutritional facts
+        Double Calories = 0.0;
+        Double Total_Fat = 0.0;
+        Double Sodium = 0.0;
+        Double Protein = 0.0;
+        Double Cholesterol = 0.0;
+        Double Total_Carbohydrates = 0.0;
+        for (Food curfood : mMeal.getFoods()) {
+            Calories+=curfood.getCalories();
+            Total_Fat+=curfood.getTotal_Fat();
+            Sodium+=curfood.getSodium();
+            Protein+=curfood.getProtein();
+            Cholesterol+=curfood.getCholesterol();
+            Total_Carbohydrates+=curfood.getTotal_Carbohydrates();
+        }
+        Food Total_nutrition = new Food("Total nutrition");
+        Total_nutrition.setCalories(Calories);
+        Total_nutrition.setTotal_Fat(Total_Fat);
+        Total_nutrition.setSodium(Sodium);
+        Total_nutrition.setProtein(Protein);
+        Total_nutrition.setCholesterol(Cholesterol);
+        Total_nutrition.setTotal_Carbohydrates(Total_Carbohydrates);
+
+
+
         ResultsFragment resultsFragment= new ResultsFragment();
+        resultsFragment.passFood(Total_nutrition);
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
 
@@ -33,7 +62,9 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.results_detail:
-                startActivity(new Intent(this,DetailedResultsActivity.class));
+                Intent i= new Intent(this,DetailedResultsActivity.class);
+                i.putExtra("mMeal",mMeal);
+                startActivity(i);
                 break;
             case R.id.results_finish:
                 startActivity(new Intent(this,NewFoodActivity.class));

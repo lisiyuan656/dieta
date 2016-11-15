@@ -10,6 +10,9 @@ import android.view.View;
 
 public class DetailedResultsActivity extends FragmentActivity implements View.OnClickListener{
     private static final String ACTIVITYNAME = "DetailedResultsActivity";
+    private Meal mMeal;
+    private int currentIndex;
+    private int mealSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +20,13 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
         Log.d(ACTIVITYNAME, "onCreate(Bundle) called");
         setContentView(R.layout.activity_detailed_results);
 
+        // TODO: get meal from prior class
+        mMeal=getIntent().getParcelableExtra("mMeal");
+        mealSize=mMeal.getFoods().size();
+        currentIndex=0;
+
         ResultsFragment resultsFragment= new ResultsFragment();
+        resultsFragment.passFood(mMeal.getFoods().get(currentIndex));
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
 
@@ -35,10 +44,24 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.detailedresults_left:
-                // TODO: left
+                if (currentIndex>0) {
+                    currentIndex--;
+                    if(getSupportFragmentManager().findFragmentById(R.id.detailedresults_nfacts) != null) {
+                        ResultsFragment resultsFragment= new ResultsFragment();
+                        resultsFragment.passFood(mMeal.getFoods().get(currentIndex));
+                        getSupportFragmentManager().beginTransaction().replace(R.id.detailedresults_nfacts,resultsFragment).commit();
+                    }
+                }
                 break;
             case R.id.detailedresults_right:
-                // TODO: right
+                if (currentIndex<mealSize-1) {
+                    currentIndex++;
+                    if(getSupportFragmentManager().findFragmentById(R.id.detailedresults_nfacts) != null) {
+                        ResultsFragment resultsFragment= new ResultsFragment();
+                        resultsFragment.passFood(mMeal.getFoods().get(currentIndex));
+                        getSupportFragmentManager().beginTransaction().replace(R.id.detailedresults_nfacts,resultsFragment).commit();
+                    }
+                }
                 break;
             case R.id.detailedresults_finish:
                 startActivity(new Intent(this,NewFoodActivity.class));

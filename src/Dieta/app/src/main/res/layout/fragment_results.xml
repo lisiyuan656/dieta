@@ -27,9 +27,9 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView14"
+                android:id="@+id/textView_calories"
                 android:layout_weight="1"
-                android:text="@string/_0" />
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView15"
+                android:id="@+id/textView_totalfat"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -66,7 +66,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView16"
+                android:id="@+id/textView_cholesterol"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView17"
+                android:id="@+id/textView_sodium"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -104,7 +104,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView18"
+                android:id="@+id/textView_protein"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -123,7 +123,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView19"
+                android:id="@+id/textView_totalcarbohydrates"
                 android:layout_weight="1" />
         </LinearLayout>
 
