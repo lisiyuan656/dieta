@@ -1,8 +1,10 @@
 package edu.osu.cse5236.group9.dieta;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.stream.JsonReader;
 
@@ -11,6 +13,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Siyuan on 10/29/16.
@@ -77,34 +81,47 @@ public class Food implements Parcelable {
     public boolean FetchData() throws IOException {
         // TODO: add code to fetch data using nutritionix api
         InputStream is = null;
-        try {
-            String urlstring = "https://api.nutritionix.com/v1_1/search/";
-            urlstring += getName();
-            urlstring += "?fields=item_name,nf_calories,nf_total_fat,nf_sodium,nf_protein,nf_cholesterol,nf_total_carbohydrate&appId=fa7ccaab&appKey=7f717e06cc847e5e78f5b6a9407f18b9";
-            URL url = new URL(urlstring);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-            // Starts the query
-            conn.connect();
-            int response = conn.getResponseCode();
-            Log.d("FoodNutritionFetch", "The response is: " + response);
-            is = conn.getInputStream();
+        int maxconnnum=5;
+        int curconnnum=0;
+        boolean successconn=false;
+        while (!successconn && curconnnum<maxconnnum) {
+            try {
+                String urlstring = "https://api.nutritionix.com/v1_1/search/";
+                urlstring += getName().replace(" ","%20").trim();
+                urlstring += "?fields=item_name,nf_calories,nf_total_fat,nf_sodium,nf_protein,nf_cholesterol,nf_total_carbohydrate&appId=fa7ccaab&appKey=7f717e06cc847e5e78f5b6a9407f18b9";
+                URL url = new URL(urlstring);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+                // Starts the query
+                conn.connect();
+                int response = conn.getResponseCode();
+                Log.d("FoodNutritionFetch", "The response is: " + response);
+                if (response!=200) {
+                    curconnnum++;
+                    continue;
+                }
+                else {
+                    successconn=true;
+                }
+                is = conn.getInputStream();
 
-            JsonReader reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
-            setFoodNutritionFacts(reader);
-            if (is != null) is.close();
-            conn.disconnect();
-            return true;
+                JsonReader reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
+                setFoodNutritionFacts(reader);
+                if (is != null) is.close();
+                conn.disconnect();
+                return true;
 
 
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-        } catch (Exception e) {
-            Log.d("FoodNutritionFetch","Exception");
+                // Makes sure that the InputStream is closed after the app is
+                // finished using it.
+            } catch (Exception e) {
+                Log.d("FoodNutritionFetch","Exception");
+            }
         }
+
         return false;
     }
 

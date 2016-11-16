@@ -34,14 +34,18 @@ public class Meal implements Parcelable {
         }
     };
 
-    public void estimateMeal() {
+    public boolean estimateMeal() {
         for (Food curfood : mFoods) {
             try{
-                curfood.FetchData();
+                if(!curfood.FetchData()) {
+                    return false;
+                }
             } catch (Exception e){
                 Log.d("setFoodNutritionFact","Exception");
+                return false;
             }
         }
+        return true;
     }
 
     public List<Food> getFoods() {

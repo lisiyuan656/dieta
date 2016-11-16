@@ -7,12 +7,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class DetailedResultsActivity extends FragmentActivity implements View.OnClickListener{
     private static final String ACTIVITYNAME = "DetailedResultsActivity";
     private Meal mMeal;
     private int currentIndex;
     private int mealSize;
+    private TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,9 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
         currentIndex=0;
 
         ResultsFragment resultsFragment= new ResultsFragment();
-        resultsFragment.passFood(mMeal.getFoods().get(currentIndex));
+        if (mealSize > 0) {
+            resultsFragment.passFood(mMeal.getFoods().get(currentIndex));
+        }
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
 
@@ -36,9 +40,13 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
         View buttonLeft=findViewById(R.id.detailedresults_left);
         View buttonRight=findViewById(R.id.detailedresults_right);
         View buttonFinish=findViewById(R.id.detailedresults_finish);
+        mTextView=(TextView) findViewById(R.id.textView_foodname);
         buttonLeft.setOnClickListener(this);
         buttonRight.setOnClickListener(this);
         buttonFinish.setOnClickListener(this);
+        if (mealSize>0) {
+            mTextView.setText(mMeal.getFoods().get(currentIndex).getName());
+        }
     }
 
     public void onClick(View v) {
@@ -49,6 +57,7 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
                     if(getSupportFragmentManager().findFragmentById(R.id.detailedresults_nfacts) != null) {
                         ResultsFragment resultsFragment= new ResultsFragment();
                         resultsFragment.passFood(mMeal.getFoods().get(currentIndex));
+                        mTextView.setText(mMeal.getFoods().get(currentIndex).getName());
                         getSupportFragmentManager().beginTransaction().replace(R.id.detailedresults_nfacts,resultsFragment).commit();
                     }
                 }
@@ -59,6 +68,7 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
                     if(getSupportFragmentManager().findFragmentById(R.id.detailedresults_nfacts) != null) {
                         ResultsFragment resultsFragment= new ResultsFragment();
                         resultsFragment.passFood(mMeal.getFoods().get(currentIndex));
+                        mTextView.setText(mMeal.getFoods().get(currentIndex).getName());
                         getSupportFragmentManager().beginTransaction().replace(R.id.detailedresults_nfacts,resultsFragment).commit();
                     }
                 }
