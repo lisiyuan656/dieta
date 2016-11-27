@@ -25,7 +25,11 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
         // TODO: get meal from prior class
         mMeal=getIntent().getParcelableExtra("mMeal");
         mealSize=mMeal.getFoods().size();
-        currentIndex=0;
+        if(savedInstanceState!=null) {
+            currentIndex = savedInstanceState.getInt("curIndex");
+        } else {
+            currentIndex=0;
+        }
 
         ResultsFragment resultsFragment= new ResultsFragment();
         if (mealSize > 0) {
@@ -47,6 +51,11 @@ public class DetailedResultsActivity extends FragmentActivity implements View.On
         if (mealSize>0) {
             mTextView.setText(mMeal.getFoods().get(currentIndex).getName());
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt("curIndex",currentIndex);
     }
 
     public void onClick(View v) {

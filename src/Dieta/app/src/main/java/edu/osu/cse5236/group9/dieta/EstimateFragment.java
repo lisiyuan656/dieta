@@ -58,6 +58,11 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
             food_weight_text.setText("Weight: "+String.format("%.1f", food.getEstimated_Weight())+" g");
             SeekBar estimate_seekbar = (SeekBar) convertView.findViewById(R.id.estimate_element_seekbar);
             estimate_seekbar.setMax(10000);
+            Double barPosition = 0.0;
+            if (food.getEstimated_Weight()!=0) {
+                barPosition = food.getEstimated_Weight()*10;
+            }
+            estimate_seekbar.setProgress(barPosition.intValue());
             estimate_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -85,6 +90,7 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
 
         View buttonConfirm = v.findViewById(R.id.estimate_confirm);
         buttonConfirm.setOnClickListener(this);
+
 
         mMeal = getActivity().getIntent().getParcelableExtra("mMeal");
         MealAdapter adapter = new MealAdapter(getActivity(), mMeal);
@@ -127,8 +133,13 @@ public class EstimateFragment extends Fragment implements View.OnClickListener{
         protected String doInBackground(String... params) {
 
             try {
-                mMeal.estimateMeal();
-
+                if(!mMeal.estimateMeal()) {
+                    Context context = getActivity().getApplicationContext();
+                    CharSequence text = "Data fetching failed. Please try again.";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
 
             } catch (Exception e) {
                 Log.d("downloadNutritionFacts","EstimateFail");

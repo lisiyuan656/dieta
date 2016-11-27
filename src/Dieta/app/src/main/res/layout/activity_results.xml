@@ -17,30 +17,30 @@
         android:id="@+id/textView"/>
 
     <FrameLayout
-        android:id="@+id/results_nfacts"  android:layout_weight="1"
+        android:id="@+id/results_nfacts"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:orientation="horizontal"  android:layout_weight="4"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dip"        >
+        android:layout_height="wrap_content" >
 
         <Button
             android:text="@string/detail"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/results_detail"
-            android:layout_weight="1"
             style="?android:attr/button" />
 
         <Button
             android:text="@string/finish"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/results_finish"
-            android:layout_weight="1"
             style="?android:attr/button" />
     </LinearLayout>
 

@@ -5,6 +5,7 @@
               android:layout_height="match_parent">
     <ImageView
         android:id="@+id/logo_image"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/logo"/>
@@ -14,11 +15,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/login_login"
         android:text="Login"
+        android:layout_weight="0"
         android:fontFamily="sans-serif-medium"
         android:textAllCaps="false" />
 
     <Button
         android:text="New User"
+        android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/login_newuser"
