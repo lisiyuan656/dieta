@@ -5,45 +5,60 @@
               tools:context="edu.osu.cse5236.group9.dieta.NewFoodFragment"
               android:orientation="vertical">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Enter the name of the food"/>
-    <EditText
-        android:id="@+id/food_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Take a photo of the food"/>
-    <Button
-        android:id="@+id/camera_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Camera"
-        style="@style/Widget.AppCompat.Button.Colored"/>
-    <ImageView
-        android:id="@+id/food_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dip"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:text="Add the food to the list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_food_button"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"    >
 
-    <Button
-        android:text="Confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/confirm_food_button"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Enter the name of the food"/>
 
+            <EditText
+                android:id="@+id/food_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Take a photo of the food"/>
+
+            <Button
+                android:id="@+id/camera_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Camera"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <ImageView
+                android:id="@+id/food_image"
+                android:layout_width="match_parent"
+                android:layout_height="300dip"/>
+
+            <Button
+                android:text="Add the food to the list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_food_button"/>
+
+            <Button
+                android:text="Confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/confirm_food_button"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

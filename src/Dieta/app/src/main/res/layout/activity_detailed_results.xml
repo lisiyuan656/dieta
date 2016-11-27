@@ -11,10 +11,9 @@
 
 
     <LinearLayout
-        android:layout_weight="4"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:text="@string/food_name"
@@ -40,10 +39,9 @@
     </FrameLayout>
 
     <LinearLayout
-        android:layout_weight="4"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <Button
             android:text="@string/arrow_left"

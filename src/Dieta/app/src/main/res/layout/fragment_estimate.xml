@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.osu.cse5236.group9.dieta.EstimateFragment">
+    tools:context="edu.osu.cse5236.group9.dieta.EstimateFragment"
+    android:padding="10dp">
 
     <ListView
         android:id="@+id/estimate_list"

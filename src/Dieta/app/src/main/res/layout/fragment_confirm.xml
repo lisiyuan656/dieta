@@ -3,10 +3,12 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:orientation="vertical"
-             tools:context="edu.osu.cse5236.group9.dieta.ConfirmFragment">
+             tools:context="edu.osu.cse5236.group9.dieta.ConfirmFragment"
+             android:padding="10dp">
 
     <TextView
         android:layout_width="match_parent"
+        android:layout_weight="0"
         android:layout_height="wrap_content"
         android:text="Choose the food you eat"/>
 
