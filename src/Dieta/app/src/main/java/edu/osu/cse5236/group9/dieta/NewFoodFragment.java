@@ -2,9 +2,12 @@ package edu.osu.cse5236.group9.dieta;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,6 +54,7 @@ public class NewFoodFragment extends Fragment {
     private static final int GALLERY_IMAGE_REQUEST = 1;
     public static final int CAMERA_PERMISSIONS_REQUEST = 2;
     public static final int CAMERA_IMAGE_REQUEST = 3;
+    public static final int INTERNET_REQUEST = 4;
     private EditText mNameField;
     private Button mButton_Camera;
     private Button mButton_AddFood;
@@ -60,6 +64,7 @@ public class NewFoodFragment extends Fragment {
     private Food mFood;
     private ImageView mFoodImage;
     private ProgressDialog mProgress;
+    private Boolean mAsyncTaskState;
 
 
     @Override
@@ -73,6 +78,7 @@ public class NewFoodFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_new_food, container, false);
         mFoodList = new ArrayList<>();
         mMeal = new Meal();
+        mAsyncTaskState = false;
         mFoodImage = (ImageView) v.findViewById(R.id.food_image);
         mNameField = (EditText) v.findViewById(R.id.food_name);
         mNameField.addTextChangedListener(new TextWatcher() {
@@ -95,22 +101,39 @@ public class NewFoodFragment extends Fragment {
         mButton_Camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder
-                        .setMessage(R.string.picture_select_prompt)
-                        .setPositiveButton(R.string.picture_select_gallery, new DialogInterface.OnClickListener() {
+                if (!mAsyncTaskState) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder
+                            .setMessage(R.string.picture_select_prompt)
+                            .setPositiveButton(R.string.picture_select_gallery, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startGalleryChooser();
+                                }
+                            })
+                            .setNegativeButton(R.string.picture_select_camera, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startCamera();
+                                }
+                            });
+                    builder.create().show();
+                }
+                else {
+                    if (mProgress==null) {
+                        mProgress = new ProgressDialog(getActivity());
+                        mProgress.setTitle("Vision");
+                        mProgress.setMessage("Still recognizing...");
+                        mProgress.setButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startGalleryChooser();
-                            }
-                        })
-                        .setNegativeButton(R.string.picture_select_camera, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startCamera();
+                                return;
                             }
                         });
-                builder.create().show();
+                        mProgress.show();
+                    }
+                    else mProgress.show();
+                }
             }
         });
 
@@ -125,10 +148,27 @@ public class NewFoodFragment extends Fragment {
         mButton_Confirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ConfirmActivity.class);
-                i.putStringArrayListExtra("mFoodList", (ArrayList<String>) mFoodList);
-                i.putExtra("mMeal", mMeal);
-                startActivity(i);
+                if (!mAsyncTaskState) {
+                    Intent i = new Intent(getActivity(), ConfirmActivity.class);
+                    i.putStringArrayListExtra("mFoodList", (ArrayList<String>) mFoodList);
+                    i.putExtra("mMeal", mMeal);
+                    startActivity(i);
+                }
+                else {
+                    if (mProgress==null) {
+                        mProgress = new ProgressDialog(getActivity());
+                        mProgress.setTitle("Vision");
+                        mProgress.setMessage("Still recognizing...");
+                        mProgress.setButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                        mProgress.show();
+                    }
+                    else mProgress.show();
+                }
             }
         });
 
@@ -191,8 +231,14 @@ public class NewFoodFragment extends Fragment {
                 // scale the image to save bandwidth
                 Bitmap bitmap = scaleBitmapDown(
                   MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri), 1200);
-                callCloudVision(bitmap);
-                mFoodImage.setImageBitmap(bitmap);
+                ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    callCloudVision(bitmap);
+                    mFoodImage.setImageBitmap(bitmap);
+                } else {
+                        Toast.makeText(getActivity(), "Network connection not available.", Toast.LENGTH_LONG).show();
+                }
             } catch (IOException e) {
                 Toast.makeText(getActivity(), "Something is wrong with the image", Toast.LENGTH_LONG).show();
             }
@@ -203,7 +249,7 @@ public class NewFoodFragment extends Fragment {
 
     private void callCloudVision(final Bitmap bitmap) throws IOException {
         // Make a toast:)
-        Toast.makeText(getActivity(), "Uploading image...", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "Uploading image...", Toast.LENGTH_SHORT).show();
 
         // Do the real work in an async task
         new AsyncTask<Object, Void, List<String>>() {
@@ -211,7 +257,8 @@ public class NewFoodFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 // DIALOG_DOWNLOAD_PROGRESS is defined as 0 at start of class
-                mProgress = ProgressDialog.show(getActivity(), "Vision", "Uploading...");
+                mAsyncTaskState = true;
+
             }
 
             @Override
@@ -245,7 +292,7 @@ public class NewFoodFragment extends Fragment {
                         annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
                             Feature labelDetection = new Feature();
                             labelDetection.setType("LABEL_DETECTION");
-                            labelDetection.setMaxResults(10);
+                            labelDetection.setMaxResults(20);
                             add(labelDetection);
                         }});
 
@@ -257,7 +304,6 @@ public class NewFoodFragment extends Fragment {
                             vision.images().annotate(batchAnnotateImagesRequest);
                     // Due to a bug: requests to Vision containing large images fail when GZipped.
                     annotateRequest.setDisableGZipContent(true);
-
                     BatchAnnotateImagesResponse response = annotateRequest.execute();
                     return convertResponseToList(response);
                 } catch (GoogleJsonResponseException e) {
@@ -272,7 +318,8 @@ public class NewFoodFragment extends Fragment {
                 super.onPostExecute(result);
                 // Update food list
                 mFoodList.addAll(result);
-                mProgress.dismiss();
+                mAsyncTaskState = false;
+                if (mProgress!=null) mProgress.dismiss();
             }
         }.execute();
     }
