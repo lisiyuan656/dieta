@@ -1,6 +1,7 @@
 package edu.osu.cse5236.group9.dieta;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -64,7 +65,7 @@ public class NewFoodFragment extends Fragment {
     private Food mFood;
     private ImageView mFoodImage;
     private ProgressDialog mProgress;
-    private Boolean mAsyncTaskState;
+    private int mAsyncTaskState;
 
 
     @Override
@@ -78,7 +79,7 @@ public class NewFoodFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_new_food, container, false);
         mFoodList = new ArrayList<>();
         mMeal = new Meal();
-        mAsyncTaskState = false;
+        mAsyncTaskState = 0;
         mFoodImage = (ImageView) v.findViewById(R.id.food_image);
         mNameField = (EditText) v.findViewById(R.id.food_name);
         mNameField.addTextChangedListener(new TextWatcher() {
@@ -101,39 +102,22 @@ public class NewFoodFragment extends Fragment {
         mButton_Camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mAsyncTaskState) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder
-                            .setMessage(R.string.picture_select_prompt)
-                            .setPositiveButton(R.string.picture_select_gallery, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startGalleryChooser();
-                                }
-                            })
-                            .setNegativeButton(R.string.picture_select_camera, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startCamera();
-                                }
-                            });
-                    builder.create().show();
-                }
-                else {
-                    if (mProgress==null) {
-                        mProgress = new ProgressDialog(getActivity());
-                        mProgress.setTitle("Vision");
-                        mProgress.setMessage("Still recognizing...");
-                        mProgress.setButton("OK", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder
+                        .setMessage(R.string.picture_select_prompt)
+                        .setPositiveButton(R.string.picture_select_gallery, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+                                startGalleryChooser();
+                            }
+                        })
+                        .setNegativeButton(R.string.picture_select_camera, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startCamera();
                             }
                         });
-                        mProgress.show();
-                    }
-                    else mProgress.show();
-                }
+                builder.create().show();
             }
         });
 
@@ -148,7 +132,7 @@ public class NewFoodFragment extends Fragment {
         mButton_Confirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (!mAsyncTaskState) {
+                if (mAsyncTaskState==0) {
                     Intent i = new Intent(getActivity(), ConfirmActivity.class);
                     i.putStringArrayListExtra("mFoodList", (ArrayList<String>) mFoodList);
                     i.putExtra("mMeal", mMeal);
@@ -234,7 +218,7 @@ public class NewFoodFragment extends Fragment {
                 ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
-                    callCloudVision(bitmap);
+                    callCloudVision(bitmap, getActivity());
                     mFoodImage.setImageBitmap(bitmap);
                 } else {
                         Toast.makeText(getActivity(), "Network connection not available.", Toast.LENGTH_LONG).show();
@@ -247,7 +231,7 @@ public class NewFoodFragment extends Fragment {
         }
     }
 
-    private void callCloudVision(final Bitmap bitmap) throws IOException {
+    private void callCloudVision(final Bitmap bitmap, final Activity UIActivity) throws IOException {
         // Make a toast:)
         // Toast.makeText(getActivity(), "Uploading image...", Toast.LENGTH_SHORT).show();
 
@@ -257,8 +241,7 @@ public class NewFoodFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 // DIALOG_DOWNLOAD_PROGRESS is defined as 0 at start of class
-                mAsyncTaskState = true;
-
+                mAsyncTaskState = mAsyncTaskState+1;
             }
 
             @Override
@@ -307,9 +290,19 @@ public class NewFoodFragment extends Fragment {
                     BatchAnnotateImagesResponse response = annotateRequest.execute();
                     return convertResponseToList(response);
                 } catch (GoogleJsonResponseException e) {
-                    Toast.makeText(getActivity(), "Failed to make API request because " + e.getContent(), Toast.LENGTH_SHORT).show();
+                    UIActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Failed to make API request because ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } catch (IOException e) {
-                    Toast.makeText(getActivity(), "Failed to make API request because of other IOException " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    UIActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Failed to make API request because of IOException ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 return new ArrayList<String>();
             }
@@ -318,10 +311,10 @@ public class NewFoodFragment extends Fragment {
                 super.onPostExecute(result);
                 // Update food list
                 mFoodList.addAll(result);
-                mAsyncTaskState = false;
-                if (mProgress!=null) mProgress.dismiss();
+                mAsyncTaskState = mAsyncTaskState-1;
+                if (mAsyncTaskState==0&&mProgress!=null) mProgress.dismiss();
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public Bitmap scaleBitmapDown(Bitmap bitmap, int maxDimension) {
