@@ -19,15 +19,32 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
         setContentView(R.layout.activity_results);
 
         mMeal=getIntent().getParcelableExtra("mMeal");
+        Food Total_nutrition = sumUp(mMeal);
 
-        // Calculate total nutritional facts
+        ResultsFragment resultsFragment= new ResultsFragment();
+        resultsFragment.passFood(Total_nutrition);
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+
+        fragmentTransaction.add(R.id.results_nfacts,resultsFragment);
+        fragmentTransaction.commit();
+
+        View buttonDetails=findViewById(R.id.results_detail);
+        View buttonFinish=findViewById(R.id.results_finish);
+        buttonDetails.setOnClickListener(this);
+        buttonFinish.setOnClickListener(this);
+    }
+
+
+    // Calculate total nutritional facts
+    private Food sumUp(Meal input) {
         Double Calories = 0.0;
         Double Total_Fat = 0.0;
         Double Sodium = 0.0;
         Double Protein = 0.0;
         Double Cholesterol = 0.0;
         Double Total_Carbohydrates = 0.0;
-        for (Food curfood : mMeal.getFoods()) {
+        for (Food curfood : input.getFoods()) {
             Calories+=curfood.getCalories();
             Total_Fat+=curfood.getTotal_Fat();
             Sodium+=curfood.getSodium();
@@ -42,21 +59,7 @@ public class ResultsActivity extends FragmentActivity implements View.OnClickLis
         Total_nutrition.setProtein(Protein);
         Total_nutrition.setCholesterol(Cholesterol);
         Total_nutrition.setTotal_Carbohydrates(Total_Carbohydrates);
-
-
-
-        ResultsFragment resultsFragment= new ResultsFragment();
-        resultsFragment.passFood(Total_nutrition);
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-
-        fragmentTransaction.add(R.id.results_nfacts,resultsFragment);
-        fragmentTransaction.commit();
-
-        View buttonDetails=findViewById(R.id.results_detail);
-        View buttonFinish=findViewById(R.id.results_finish);
-        buttonDetails.setOnClickListener(this);
-        buttonFinish.setOnClickListener(this);
+        return Total_nutrition;
     }
 
     public void onClick(View v) {
